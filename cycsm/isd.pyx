@@ -40,14 +40,11 @@ cdef class Isd:
             isd.addparam(k, v)
         return isd
 
-    @classmethod
-    def read_socet_file(cls, keywords, ell=None):
+    @staticmethod
+    def socet_to_json(keywords):
         """
-        Read a SocetSet ketwords.list file with optional ellipsoid file,
-        convert into an dict and pipe to the loads method.
+        Convert a SocetCet keywords.list file to JSON
         """
-        isd = cls()
-
         matcher = re.compile(r'\b(?!\d)\w+\b')
         numeric_matcher = re.compile(r'\W-?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?')
         stream = {}
@@ -74,6 +71,15 @@ cdef class Isd:
                     # Case where the values are on a newline after the key
                     nums = numeric_matcher.findall(l)
                     stream[key] += map(float, nums)
+        return json.dumps(stream)
+
+    @classmethod
+    def read_socet_file(cls, keywords, ell=None):
+        """
+        Read a SocetSet ketwords.list file with optional ellipsoid file,
+        convert into an dict and pipe to the loads method.
+        """
+        stream = cls.socet_to_json(keywords)
         return cls.loads(stream)
 
     def addparam(self, key, value):
