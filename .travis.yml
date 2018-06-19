@@ -50,6 +50,7 @@ install:
   # Install dependencies
   - conda config --add channels usgs-astrogeology
   - conda config --add channels conda-forge
+  - conda install libgcc
   - conda install -c conda-forge numpy cython
   - conda install -c usgs-astrogeology libcsm
   # Development installation
