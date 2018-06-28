@@ -41,28 +41,15 @@ before_install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a   # Useful for debugging any issues with conda
-  # Create the env
-  - conda create -q -n test python=$PYTHON_VERSION
-  - source activate test
-  - python -c "import fcntl; fcntl.fcntl(1, fcntl.F_SETFL, 0)"
-
-install:
-  # Install dependencies
-  - conda config --add channels usgs-astrogeology
+  # Add the necessary channels
   - conda config --add channels conda-forge
-  - conda install -c conda-forge numpy cython
-  - conda install -c usgs-astrogeology libcsm
-  # Development installation
-  - conda install pytest pytest-cov
-  - pip install coveralls
+  - conda config --add channels usgs-astrogeology
+  - conda install pytest pytest-cov coveralls conda-build anaconda-client
 
 script:
-  - python setup.py install
-  - pytest --cov=cycsm
+  - conda build -q --token $CONDA_UPLOAD_TOKEN --python $PYTHON_VERSION .
 
 after_success:
   - coveralls
-  - source deactivate
-  - conda install conda-build anaconda-client
-  - conda config --set anaconda_upload yes
-  - conda build -q --token $CONDA_UPLOAD_TOKEN --python $PYTHON_VERSION .
+
+  

@@ -9,7 +9,8 @@ source:
   git_rev: master
 
 build:
-  number: 3
+  script: python setup.py install --single-version-externally-manaded --record record.txt
+  number: 4
 
 detect_binary_files_with_prefix: true
 
@@ -29,9 +30,9 @@ requirements:
     - vc 14  # [win and py>=35]
 
 test:
-  imports:
-    - cycsm
-
+  commands:
+    - "pytest --cov=cycsm"
+    
 about:
   home: https://github.com/USGS-Astrogeology/CSM-CyCSM
   license: Unlicense
