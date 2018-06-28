@@ -47,9 +47,9 @@ before_install:
   - conda install pytest pytest-cov coveralls conda-build anaconda-client
 
 script:
-  - conda build -q --token $CONDA_UPLOAD_TOKEN --python $PYTHON_VERSION .
+  - conda build --python $PYTHON_VERSION recipe
 
 after_success:
   - coveralls
-
+  - anaconda -t $CONDA_UPLOAD_TOKEN upload `conda build --output recipe` --force
   
