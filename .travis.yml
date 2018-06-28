@@ -44,9 +44,10 @@ before_install:
   # Add the necessary channels
   - conda config --add channels conda-forge
   - conda config --add channels usgs-astrogeology
+  - conda install pytest pytest-cov coveralls conda-build anaconda-client
 
 script:
-  - conda build --py $PYTHON_VERSION recipe
+  - conda build --py $PYTHON_VERSION .
 
 after_success:
   - coveralls
