@@ -30,11 +30,8 @@ requirements:
     - vc 14  # [win and py>=35]
 
 test:
-  requires:
-    - pytest
-    - pytest-cov
-  commands:
-    - py.test --cov=cycsm
+  imports:
+    - cycsm
 
 about:
   home: https://github.com/USGS-Astrogeology/CSM-CyCSM
