@@ -41,15 +41,20 @@ before_install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a   # Useful for debugging any issues with conda
-  # Add the necessary channels
-  - conda config --add channels conda-forge
+
+install: 
+  # Install dependencies
   - conda config --add channels usgs-astrogeology
-  - conda install pytest pytest-cov coveralls conda-build anaconda-client
+  - conda config --add channels conda-forge
+  - conda install -c conda-forge numpy cython pytest pytest-cov coveralls libgcc-ng 
+  - conda install -c usgs-astrogeology libcsm
 
 script:
-  - conda build --py $PYTHON_VERSION .
+  - python setup.py install
+  - pytest --cov=cycsm
 
 after_success:
-  - coveralls
-  - anaconda -t $CONDA_UPLOAD_TOKEN upload `conda build --output recipe` --force
-  
+  - source deactivate
+  - conda install conda-build anaconda-client
+  - conda config --set anaconda_upload yes
+  - conda build -q --token $CONDA_UPLOAD_TOKEN --python $PYTHON_VERSION . 
