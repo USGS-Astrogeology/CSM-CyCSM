@@ -46,7 +46,7 @@ before_install:
   - conda create -q -n test python=$PYTHON_VERSION
   - source activate test
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      conda install gxx_linux64;
+      conda install gxx_linux-64;
     else
       conda install clangxx_osx-64;
     fi
