@@ -1,4 +1,4 @@
-{% set version = "0.1.0" %}
+{% set version = "0.1.1" %}
 
 package:
   name: cycsm
@@ -14,14 +14,15 @@ build:
 detect_binary_files_with_prefix: true
 
 requirements:
-  build:
+  build: 
+    - {{ compiler('cxx') }}
+    - vc 14  # [win and py>=35]
+  host:
     - python
     - setuptools
     - numpy >=1.10
     - cython >=0.27
     - libcsm
-    - vc 14  # [win and py>=35]
-    - {{ compiler('cxx') }}
   run:
     - python
     - numpy >=1.10
@@ -29,8 +30,11 @@ requirements:
     - vc 14  # [win and py>=35]
 
 test:
+  requires:
+    - pytest
+    - pytest-cov
   commands:
-    - "pytest --cov=cycsm"
+    - py.test --cov=cycsm
 
 about:
   home: https://github.com/USGS-Astrogeology/CSM-CyCSM
