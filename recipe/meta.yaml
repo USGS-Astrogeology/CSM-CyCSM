@@ -9,7 +9,7 @@ source:
   git_rev: master
 
 build:
-  number: 3
+  number: 4
 
 detect_binary_files_with_prefix: true
 
@@ -29,8 +29,8 @@ requirements:
     - vc 14  # [win and py>=35]
 
 test:
-  imports:
-    - cycsm
+  commands:
+    - "pytest --cov=cycsm"
 
 about:
   home: https://github.com/USGS-Astrogeology/CSM-CyCSM
